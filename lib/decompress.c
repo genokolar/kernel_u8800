@@ -10,6 +10,7 @@
 #include <linux/decompress/unlzma.h>
 #include <linux/decompress/unxz.h>
 #include <linux/decompress/inflate.h>
+#include <linux/decompress/unlzo.h>
 
 #include <linux/types.h>
 #include <linux/string.h>
@@ -30,7 +31,6 @@
 # define unlzo NULL
 #endif
 
-
 static const struct compress_format {
 	unsigned char magic[2];
 	const char *name;
@@ -42,7 +42,6 @@ static const struct compress_format {
 	{ {0x5d, 0x00}, "lzma", unlzma },
 	{ {0xfd, 0x37}, "xz", unxz },
 	{ {0x89, 0x4c}, "lzo", unlzo },
-
 	{ {0, 0}, NULL, NULL }
 };
 
