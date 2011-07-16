@@ -161,10 +161,10 @@ __secondary_data:
  * registers.
  */
 __enable_mmu:
-#ifdef CONFIG_ALIGNMENT_TRAP
-	orr	r0, r0, #CR_A
+#ifdef CONFIG_ALLOW_CPU_ALIGNMENT
+  	bic  r0, r0, #CR_A
 #else
-	bic	r0, r0, #CR_A
+  	orr  r0, r0, #CR_A
 #endif
 #ifdef CONFIG_CPU_DCACHE_DISABLE
 	bic	r0, r0, #CR_C
@@ -174,6 +174,10 @@ __enable_mmu:
 #endif
 #ifdef CONFIG_CPU_ICACHE_DISABLE
 	bic	r0, r0, #CR_I
+#endif
+#ifdef CONFIG_USER_L2_PLE
+  	mov  r5, #3
+  	mcr  p15, 0, r5, c11, c1, 0
 #endif
 	mov	r5, #(domain_val(DOMAIN_USER, DOMAIN_CLIENT) | \
 		      domain_val(DOMAIN_KERNEL, DOMAIN_MANAGER) | \
